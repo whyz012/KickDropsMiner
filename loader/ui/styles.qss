@@ -1,0 +1,257 @@
+/* loader/ui/styles.qss */
+
+* {
+    font-family: 'Montserrat', 'Segoe UI', 'Arial', sans-serif;
+    font-size: 10pt; /* Уменьшаем размер шрифта */
+    color:rgb(156, 156, 156); /* Светлый серый текст */
+}
+QMainWindow, QWidget, QScrollArea {
+    background-color: #1E1E1E; /* Очень темный серый фон */
+}
+QFrame {
+    border: none;
+    background-color: #282828; /* Темно-серый */
+    border-radius: 5px; /* Мягкие скругления */
+}
+/* Scroll Area */
+QScrollArea, QWidget#ListContent {
+    background-color: #242424; /* Темнее для области прокрутки */
+    border: 1px solid #3A3A3A; /* Тонкая обводка */
+    border-radius: 5px;
+}
+QScrollBar:vertical {
+    background: #282828;
+    width: 10px;
+    margin: 0;
+    border-radius: 5px;
+}
+QScrollBar::handle:vertical {
+    background: #505050; /* Серый для ползунка */
+    border-radius: 5px;
+    min-height: 20px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #606060; /* Светлее серый при наведении */
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    background: none;
+    height: 0;
+}
+/* Control Panel */
+QFrame#ControlPanel {
+    background-color: #181818; /* Еще темнее для панели управления */
+    border: 1px solid #3A3A3A;
+    border-radius: 5px;
+}
+/* Buttons */
+QPushButton {
+    background-color: #505050; /* Серый */
+    border: none;
+    color: #FFFFFF;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+QPushButton:hover {
+    background-color: #606060; /* Светлее при наведении */
+}
+QPushButton:pressed {
+    background-color: #404040; /* Темнее при нажатии */
+}
+QPushButton#ToggleAllButton {
+    background-color: #707070; /* Другой оттенок серого */
+}
+QPushButton#ToggleAllButton:hover {
+    background-color: #808080;
+}
+QPushButton#DropsButton, QPushButton#TelegramButton, QPushButton#RefreshButton, QPushButton#AddAllButton {
+    background-color: #707070; /* Другой оттенок серого */
+}
+QPushButton#DropsButton:hover, QPushButton#TelegramButton:hover, QPushButton#RefreshButton:hover, QPushButton#AddAllButton:hover {
+    background-color: #808080;
+}
+/* Checkboxes */
+QCheckBox {
+    spacing: 5px;
+    color: #E0E0E0;
+}
+QCheckBox::indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid #505050;
+    background-color: #242424;
+}
+QCheckBox::indicator:checked {
+    background-color: #505050;
+    border: 1px solid #505050;
+    /* image: url(./assets/checked_icon.png); */ /* Пример: пользовательская иконка */
+}
+/* Input Fields */
+QLineEdit {
+    background-color: #242424;
+    border: 1px solid #3A3A3A;
+    color: #E0E0E0;
+    padding: 6px;
+    border-radius: 5px;
+}
+QLineEdit:focus {
+    border: 1px solid #0078D7; /* Цвет рамки при фокусе */
+}
+/* Status Bar */
+QStatusBar {
+    background-color: #181818;
+    color: #E0E0E0;
+    border-top: 1px solid #3A3A3A;
+}
+QLabel#LoadingIndicator {
+    color: #FFC107; /* Желтый цвет для индикатора загрузки */
+    font-size: 10pt;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+QLabel#StatusLabel {
+    color: #E0E0E0;
+    font-size: 12pt;
+    font-weight: 500;
+}
+QPushButton#DropActionButton {
+    background-color: #505050;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+QPushButton#DropActionButton:hover {
+    background-color: #606060;
+}
+QFrame.CampaignFrame {
+    background-color: #2D2D2D;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #444444;
+}
+QFrame.RewardsFrame {
+    background-color: #333333;
+    border-radius: 8px;
+    padding: 5px;
+}
+QPushButton#AddAllButton {
+    background-color: #008080;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+QPushButton#AddAllButton:hover {
+    background-color: #009999;
+}
+
+QLabel#NoCampaignsLabel {
+    color: #FF7043;
+    font-size: 14pt;
+    margin: 20px;
+}
+
+QLabel#TotalTimeLabel {
+    color: #E0E0E0;
+    font-size: 12pt;
+    font-weight: 500;
+}
+QTableWidget {
+    background-color: #282828;
+    border: 1px solid #3A3A3A;
+    border-radius: 5px;
+    color: #E0E0E0;
+}
+QTableWidget::item {
+    padding: 5px;
+    color: #E0E0E0;
+}
+QHeaderView::section {
+    background-color: #242424;
+    color: #FFFFFF;
+    padding: 5px;
+    border: none;
+    border-radius: 0px;
+}
+
+QDialog {
+    background-color: #242424;
+    border: 1px solid #3A3A3A;
+    border-radius: 5px;
+}
+QPushButton {
+    background-color: #505050;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+QPushButton:hover {
+    background-color: #606060;
+}
+
+QLabel#TelegramHintLabel {
+    font-size: 8pt;
+    color: #909090;
+}
+
+QFrame#CollapsibleHeader {
+    background-color: #282828;
+    border-radius: 5px;
+    border: 1px solid #3A3A3A;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+QFrame#CollapsibleHeader:hover {
+    background-color: #3A3A3A;
+}
+
+/* StreamCard styles */
+QFrame#StreamCard {
+    background-color: #282828; /* Фон карточки */
+    border: 1px solid #707070; /* Обводка по умолчанию (будет переопределена) */
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 10px;
+}
+QFrame#StreamCard:hover {
+    background-color: #3A3A3A; /* Светлее при наведении */
+}
+QLabel#ChannelName {
+    color: #E0E0E0;
+    font-size: 16pt;
+    font-weight: 600;
+}
+QLabel#FullUrl {
+    color: #B0B0B0;
+    font-size: 10pt;
+}
+QLabel#StatusTag {
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 4px 8px;
+    border-radius: 10px;
+    min-width: 70px;
+    text-align: center;
+    font-weight: bold;
+}
+QLabel#Elapsed, QLabel#Target {
+    color: #A0A0A0; /* Серый акцент */
+    font-size: 12pt;
+    font-weight: 500;
+}
+QPushButton#ActionButton, QPushButton#RemoveButton {
+    background-color: #505050; /* Серый */
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 6px 12px;
+    font-size: 10pt;
+}
+QPushButton#ActionButton:hover, QPushButton#RemoveButton:hover {
+    background-color: #606060;
+}

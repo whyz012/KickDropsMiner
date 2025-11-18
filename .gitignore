@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python/
+env/
+venv/
+.venv/
+build/
+dist/
+*.spec
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.vscode/
+
+# IDE files
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Selenium/Chromedriver
+chrome_data/
+cookies/
+
+# Config files (should be handled by appdirs, not in repo)
+config.json
+session_log.json
+build.py
