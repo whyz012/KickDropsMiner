@@ -26,6 +26,7 @@ class Config:
         }
         self.chrome_executable_path = "" # Добавляем путь к исполняемому файлу Chrome
         self.default_drop_minutes = 120 # Добавляем значение по умолчанию для минут дропа
+        self.locale = "en" # Добавляем настройку локали по умолчанию
         self.load()
 
     def load(self):
@@ -44,6 +45,7 @@ class Config:
                 self.notify_events = data.get("notify_events", self.notify_events)
                 self.chrome_executable_path = data.get("chrome_executable_path", "") # Загружаем путь
                 self.default_drop_minutes = data.get("default_drop_minutes", 120) # Загружаем значение для минут дропа
+                self.locale = data.get("locale", "en") # Загружаем настройку локали
 
             # Гарантируем, что у каждого элемента есть ключи 'elapsed' и 'finished'
             for item in self.items:
@@ -76,6 +78,7 @@ class Config:
                     "notify_events": self.notify_events,
                     "chrome_executable_path": self.chrome_executable_path, # Сохраняем путь
                     "default_drop_minutes": self.default_drop_minutes, # Сохраняем значение для минут дропа
+                    "locale": self.locale, # Сохраняем настройку локали
                 },
                 f,
                 indent=4,

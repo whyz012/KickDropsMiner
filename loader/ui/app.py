@@ -33,12 +33,13 @@ class App(QMainWindow):
         self.workers = {}
         self.queue_running = False
         self.queue_current_idx = None
-        self.t = helpers.translate # Обновляем на helpers.translate
+        helpers.initialize_translator(self.config_data) # Инициализируем переводчик
+        self.t = helpers.translate
         self.card_widgets = {}
         self.selected_card_idx = None # Добавляем для отслеживания выбранной карточки
         self._interactive_driver = None # Добавляем для интерактивного драйвера
 
-        self.setWindowIcon(QIcon(os.path.join(APP_DIR, "loader", "assets", "icons.ico")))
+        self.setWindowIcon(QIcon(os.path.join(APP_DIR, "resources", "icon.ico")))
 
         # Load Montserrat font
         font_path = os.path.join(APP_DIR, "assets", "Montserrat-Regular.ttf") # Обновлен путь к шрифту
@@ -456,6 +457,7 @@ class App(QMainWindow):
             worker.signals.error.connect(
                 functools.partial(self._show_critical_message_slot, self.t("error"))
             )
+            worker.signals.switch_stream.connect(self._on_worker_switch_stream_slot) # Подключаем новый сигнал
 
             self.workers[idx] = worker
             worker.start()
@@ -489,6 +491,22 @@ class App(QMainWindow):
             worker = self.workers[idx]
             worker.stop()
             self.status_label.setText(self.t("status_stopped"))
+
+    @QtCore.pyqtSlot(int) # Новый слот для переключения стрима
+    def _on_worker_switch_stream_slot(self, idx):
+        print(f"_on_worker_switch_stream_slot: Получен сигнал переключения для индекса {idx}.")
+        worker = self.workers.pop(idx, None)
+        if worker is None:
+            return
+
+        # Останавливаем текущий worker
+        worker.stop()
+
+        # Запускаем следующий стрим в очереди, если очередь активна
+        if self.queue_running and self.queue_current_idx == idx:
+            print(f"_on_worker_switch_stream_slot: Переключаемся на следующий стрим из очереди.")
+            self._run_queue_from(idx + 1)
+        self.refresh_list()
 
     # --- Worker Signal Slots (Run in Main UI Thread) ---
     @QtCore.pyqtSlot(int, int, bool)

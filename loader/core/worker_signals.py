@@ -7,3 +7,4 @@ class WorkerSignals(QObject):
     finish = pyqtSignal(int, int, bool, str) # Добавлен аргумент для причины завершения
     progress_update = pyqtSignal(int, int, int) # idx, elapsed_seconds, target_seconds
     error = pyqtSignal(str)
+    switch_stream = pyqtSignal(int) # Добавляем новый сигнал для переключения стрима

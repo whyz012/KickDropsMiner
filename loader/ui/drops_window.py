@@ -8,7 +8,7 @@ import time
 import json
 import urllib.request
 from io import BytesIO
-from PIL import Image, ImageTk # Для обработки изображений
+from PIL import Image # Для обработки изображений
 from selenium.webdriver.common.by import By
 
 from loader.core.selenium_driver import make_chrome_driver # Импортируем make_chrome_driver
@@ -285,14 +285,18 @@ class DropsWindow(QMainWindow):
             with urllib.request.urlopen(req, timeout=5) as response:
                 img_data = response.read()
 
-            q_image = Image.open(BytesIO(img_data))
-            q_image = q_image.resize((50, 50), Image.Resampling.LANCZOS)
+            # Загружаем изображение напрямую в QImage
+            q_image = QImage()
+            q_image.loadFromData(img_data)
 
-            img_byte_array = BytesIO()
-            q_image.save(img_byte_array, format='PNG')
-            img_byte_array.seek(0)
-            q_image = QImage.fromData(img_byte_array.getvalue())
-            pixmap = QPixmap.fromImage(q_image)
+            if q_image.isNull():
+                print(f"Ошибка: Не удалось загрузить изображение из URL: {reward_img_url}")
+                return
+
+            # Масштабируем QImage
+            scaled_q_image = q_image.scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+
+            pixmap = QPixmap.fromImage(scaled_q_image)
 
             QMetaObject.invokeMethod(
                 self,

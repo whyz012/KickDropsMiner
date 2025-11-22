@@ -52,6 +52,8 @@ class StreamWorker(threading.Thread):
         self._last_live_check = 0.0
         self._last_live_value = True
         self._live_check_interval = 10  # seconds
+        self._pause_start_time = None  # Время, когда стрим перешел в офлайн
+        self._pause_timeout = 15  # Секунды, после которых нужно переключиться на другой стрим (10-15 секунд)
         self.signals = WorkerSignals()
         self.config = (
             config if config is not None else Config()
@@ -162,13 +164,22 @@ class StreamWorker(threading.Thread):
             print(f"Worker {self.idx}: Запускаем основной цикл мониторинга.") # Добавлено логирование
             while not self.stop_event.is_set():
                 live = self.is_stream_live()
-                if not live and self._last_live_value: # Стрим только что перешел в офлайн
-                    print(f"Worker {self.idx}: Стрим {self.url} перешел в офлайн. Завершаем работу.")
-                    self._send_notifications("offline", f"Стрим {self.url} перешел в офлайн.")
-                    self._save_session_log(success=False, reason="Stream Offline")
-                    finish_reason = "Stream Offline" # Устанавливаем причину завершения
-                    self.stop_event.set() # Устанавливаем stop_event, чтобы выйти из цикла
-                    break
+                if not live:
+                    if self._last_live_value: # Стрим только что перешел в офлайн
+                        print(f"Worker {self.idx}: Стрим {self.url} перешел в офлайн. Запускаем таймер паузы.")
+                        self._pause_start_time = time.time()
+                    elif self._pause_start_time and (time.time() - self._pause_start_time > self._pause_timeout):
+                        print(f"Worker {self.idx}: Стрим {self.url} на паузе более {self._pause_timeout} секунд. Переключаемся.")
+                        self._send_notifications("offline", f"Стрим {self.url} на паузе более {self._pause_timeout} секунд, переключение.")
+                        self._save_session_log(success=False, reason="Stream Paused Too Long")
+                        finish_reason = "Stream Paused Too Long"
+                        self.signals.switch_stream.emit(self.idx) # Отправляем сигнал на переключение стрима
+                        self.stop_event.set()
+                        break
+                elif live and self._pause_start_time: # Стрим вернулся в онлайн
+                    print(f"Worker {self.idx}: Стрим {self.url} вернулся в онлайн. Сбрасываем таймер паузы.")
+                    self._pause_start_time = None
+
                 self._last_live_value = live # Обновляем последнее состояние live
 
                 try:
